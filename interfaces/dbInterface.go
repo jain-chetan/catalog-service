@@ -10,4 +10,5 @@ var DBClient DBInteractions
 //DBInteractions interface to hold database operations
 type DBInteractions interface {
 	DBConnect(config model.DBConfig) error
+	CreateProductsQuery(catalog model.Catalog) (model.CreateResponse, error)
 }

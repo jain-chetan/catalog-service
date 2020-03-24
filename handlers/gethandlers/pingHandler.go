@@ -18,6 +18,8 @@ func (getData *GetHandler) PingHandler(response http.ResponseWriter, request *ht
 		Message: "Ok",
 	}
 
+	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
 	json.NewEncoder(response).Encode(pingResponse)
 
 }

@@ -27,3 +27,10 @@ type Response struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
+
+//CreateResponse for insertion response
+type CreateResponse struct {
+	ID      primitive.ObjectID `json:"productID"`
+	Code    int                `json:"code"`
+	Message string             `json:"message"`
+}

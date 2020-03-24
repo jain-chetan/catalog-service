@@ -1,0 +1,57 @@
+package posthandlers
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+
+	"github.com/jain-chetan/catalog-service/interfaces"
+	"github.com/jain-chetan/catalog-service/model"
+)
+
+//PostHandler structure to group all get methods
+type PostHandler struct{}
+
+//PostCatalogHandler to handle JSON request and response for database insertion of products
+func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, request *http.Request) {
+	//Catalog model to decode JSON data
+	var catalog model.Catalog
+
+	response.Header().Add("content-type", "application/json")
+	//Decoding JSON Body from Request
+	errDecode := json.NewDecoder(request.Body).Decode(&catalog)
+
+	//Error Handling for Decoding JSON Request
+	if errDecode != nil {
+		log.Println("Error in Decoding JSON Body")
+		response.WriteHeader(http.StatusBadRequest)
+		errResponse := model.Response{
+			Code:    400,
+			Message: "Error in Decoding JSON Body",
+		}
+		json.NewEncoder(response).Encode(errResponse)
+		return
+	}
+
+	//Calling CreateProductsQuery to insert products in database
+	result, err := interfaces.DBClient.CreateProductsQuery(catalog)
+	if err != nil {
+		log.Println("Error in inserting data")
+		response.WriteHeader(http.StatusBadRequest)
+		errResponse := model.Response{
+			Code:    400,
+			Message: "Error in Inserting Data",
+		}
+		json.NewEncoder(response).Encode(errResponse)
+		return
+	}
+
+	log.Println("Inserted ID is ", result.ID)
+	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	result = model.CreateResponse{
+		ID:      result.ID,
+		Code:    201,
+		Message: "Successfully Created",
+	}
+	json.NewEncoder(response).Encode(result)
+}
