@@ -17,7 +17,6 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 	//Catalog model to decode JSON data
 	var catalog model.Catalog
 
-	response.Header().Add("content-type", "application/json")
 	//Decoding JSON Body from Request
 	errDecode := json.NewDecoder(request.Body).Decode(&catalog)
 
@@ -29,6 +28,7 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 			Code:    400,
 			Message: "Error in Decoding JSON Body",
 		}
+		response.Header().Add("Status", "400")
 		json.NewEncoder(response).Encode(errResponse)
 		return
 	}
@@ -42,16 +42,18 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 			Code:    400,
 			Message: "Error in Inserting Data",
 		}
+		response.Header().Add("Status", "400")
 		json.NewEncoder(response).Encode(errResponse)
 		return
 	}
 
 	log.Println("Inserted ID is ", result.ID)
-	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	result = model.CreateResponse{
 		ID:      result.ID,
 		Code:    201,
 		Message: "Successfully Created",
 	}
+	response.Header().Add("Status", "201")
+	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	json.NewEncoder(response).Encode(result)
 }

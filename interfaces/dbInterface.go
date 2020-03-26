@@ -11,4 +11,6 @@ var DBClient DBInteractions
 type DBInteractions interface {
 	DBConnect(config model.DBConfig) error
 	CreateProductsQuery(catalog model.Catalog) (model.CreateResponse, error)
+	GetAllProductsQuery(queryParams map[string][]string) ([]model.Catalog, error)
+	GetSingleProductQuery(productID string) (model.Catalog, error)
 }

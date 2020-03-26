@@ -22,6 +22,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/catalog/ping", api.GetHandlers.PingHandler).Methods("GET")
 	router.HandleFunc("/catalog", api.PostHandlers.PostCatalogHandler).Methods("POST")
+	router.HandleFunc("/catalog", api.GetHandlers.GetAllProductsHandler).Methods("GET")
+	router.HandleFunc("/catalog/{productID}", api.GetHandlers.GetSingleProductHandler).Methods("GET")
 
 	http.ListenAndServe(":8082", router)
 
