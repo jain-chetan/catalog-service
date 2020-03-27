@@ -21,6 +21,7 @@ func (getAllData *GetHandler) GetAllProductsHandler(response http.ResponseWriter
 	catalogs, err := interfaces.DBClient.GetAllProductsQuery(queryParams)
 	log.Println("Catalogs recieved ", catalogs)
 	if err != nil {
+		log.Println("Error in getting data ", err)
 		errResponse := model.Response{
 			Code:    400,
 			Message: "Error in getting data",

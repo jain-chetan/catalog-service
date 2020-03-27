@@ -22,7 +22,7 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 
 	//Error Handling for Decoding JSON Request
 	if errDecode != nil {
-		log.Println("Error in Decoding JSON Body")
+		log.Println("Error in Decoding JSON Body", errDecode)
 		response.WriteHeader(http.StatusBadRequest)
 		errResponse := model.Response{
 			Code:    400,
@@ -36,7 +36,7 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 	//Calling CreateProductsQuery to insert products in database
 	result, err := interfaces.DBClient.CreateProductsQuery(catalog)
 	if err != nil {
-		log.Println("Error in inserting data")
+		log.Println("Error in inserting data ", err)
 		response.WriteHeader(http.StatusBadRequest)
 		errResponse := model.Response{
 			Code:    400,

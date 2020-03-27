@@ -24,6 +24,8 @@ func main() {
 	router.HandleFunc("/catalog", api.PostHandlers.PostCatalogHandler).Methods("POST")
 	router.HandleFunc("/catalog", api.GetHandlers.GetAllProductsHandler).Methods("GET")
 	router.HandleFunc("/catalog/{productID}", api.GetHandlers.GetSingleProductHandler).Methods("GET")
+	router.HandleFunc("/catalog/{productID}", api.PutHandlers.UpdateProductHandler).Methods("PUT")
+	router.HandleFunc("/catalog/{productID}", api.DeleteHandlers.DeleteProductHandler).Methods("DELETE")
 
 	http.ListenAndServe(":8082", router)
 
