@@ -21,7 +21,7 @@ func (deleteData *DeleteHandler) DeleteProductHandler(response http.ResponseWrit
 
 	isProductExist := interfaces.DBClient.CheckProductExist(productID)
 
-	if isProductExist {
+	if !isProductExist {
 		errResponse := model.Response{
 			Code:    400,
 			Message: "No Records Found",

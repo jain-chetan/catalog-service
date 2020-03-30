@@ -47,6 +47,7 @@ func (postData *PostHandler) PostCatalogHandler(response http.ResponseWriter, re
 		return
 	}
 
+	//Returning created ID back for new product inserted.
 	log.Println("Inserted ID is ", result.ID)
 	result = model.CreateResponse{
 		ID:      result.ID,

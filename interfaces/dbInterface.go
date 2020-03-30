@@ -13,6 +13,6 @@ type DBInteractions interface {
 	CreateProductsQuery(catalog model.Catalog) (model.CreateResponse, error)
 	GetAllProductsQuery(queryParams map[string][]string) ([]model.Catalog, error)
 	GetSingleProductQuery(productID string) (model.Catalog, error)
-	UpdateProductQuery(productID string, catalog model.Catalog)
+	// UpdateProductQuery(productID string, catalog model.Catalog)
 	CheckProductExist(productID string) bool
 }

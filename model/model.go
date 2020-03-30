@@ -4,7 +4,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 //Catalog structure for catalog document
 type Catalog struct {
-	ID               primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	ID               primitive.ObjectID `json:"productID,omitempty" bson:"_id,omitempty"`
 	ProductName      string             `json:"productName" bson:"productName"`
 	ProductImageLink string             `json:"productImageLink" bson:"productImageLink"`
 	Manufacturer     string             `json:"manufacturer" bson:"manufacturer"`

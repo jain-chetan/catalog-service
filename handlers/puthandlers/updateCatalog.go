@@ -35,7 +35,7 @@ func (updateData *PutHandler) UpdateProductHandler(response http.ResponseWriter,
 	}
 
 	isProductExist := interfaces.DBClient.CheckProductExist(productID)
-	if isProductExist {
+	if !isProductExist {
 		errResponse := model.Response{
 			Code:    400,
 			Message: "No Records Found",
