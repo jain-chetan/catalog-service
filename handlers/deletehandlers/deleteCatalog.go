@@ -31,9 +31,8 @@ func (deleteData *DeleteHandler) DeleteProductHandler(response http.ResponseWrit
 		return
 	}
 
-	//deleteResponse, err := interfaces.DBClient.DeleteProductQuery(productID)
-	var err error
-	if err != nil {
+	deleteResponse, err := interfaces.DBClient.DeleteProductQuery(productID)
+	if err != nil || deleteResponse <= 0 {
 		log.Println("Error in deleting Data in database ", err)
 		response.WriteHeader(http.StatusBadRequest)
 		errResponse := model.Response{
@@ -44,8 +43,6 @@ func (deleteData *DeleteHandler) DeleteProductHandler(response http.ResponseWrit
 		json.NewEncoder(response).Encode(errResponse)
 		return
 	}
-
-	//TODO: Condition goes here if deletedField count value is 0 after DB Call
 
 	result := model.Response{
 		Code:    200,
