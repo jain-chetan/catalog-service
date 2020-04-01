@@ -19,6 +19,8 @@ func (deleteData *DeleteHandler) DeleteProductHandler(response http.ResponseWrit
 
 	log.Println("Path Param ", productID)
 
+	response.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
 	isProductExist := interfaces.DBClient.CheckProductExist(productID)
 
 	if !isProductExist {

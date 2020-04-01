@@ -24,7 +24,9 @@ func (dc *DBRepo) UpdateProductQuery(productID string, catalog model.Catalog) (i
 
 	res, errUpdate := collection.UpdateOne(ctx, bson.D{primitive.E{Key: "_id", Value: ID}},
 		bson.D{primitive.E{Key: "$set", Value: catalog}})
-	log.Println("Update command ", bson.D{primitive.E{Key: "_id", Value: ID}}, bson.D{primitive.E{Key: "$set", Value: catalog}})
+
+	log.Println("Update filter and data ", bson.D{primitive.E{Key: "_id", Value: ID}},
+		bson.D{primitive.E{Key: "$set", Value: catalog}})
 
 	if errUpdate != nil {
 		return 0, errUpdate

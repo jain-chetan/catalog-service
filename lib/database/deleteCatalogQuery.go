@@ -20,8 +20,15 @@ func (dc *DBRepo) DeleteProductQuery(productID string) (int64, error) {
 		return 0, errConversion
 	}
 
-	res, errUpdate := collection.UpdateOne(ctx, bson.D{primitive.E{Key: "_id", Value: ID}},
-		bson.D{primitive.E{Key: "IsDeleted", Value: true}})
+	setDeleteFlag := bson.D{
+		primitive.E{Key: "$set", Value: bson.D{
+			primitive.E{Key: "IsDeleted", Value: true},
+		}},
+	}
+
+	log.Println("Delete", setDeleteFlag)
+
+	res, errUpdate := collection.UpdateOne(ctx, bson.D{primitive.E{Key: "_id", Value: ID}}, setDeleteFlag)
 
 	if errUpdate != nil {
 		return 0, errUpdate
