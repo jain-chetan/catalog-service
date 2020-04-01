@@ -24,18 +24,18 @@ func (dc *DBRepo) GetAllProductsQuery(queryParams map[string][]string) ([]model.
 	findOptions.SetSort(bson.D{primitive.E{Key: "price", Value: 1}})
 
 	var filter primitive.D
-	// cursor, err := collection.Find(ctx, bson.D{primitive.E{Key: "IsDeleted", Value: false}}, findOptions)
+	cursor, err := collection.Find(ctx, bson.D{primitive.E{Key: "IsDeleted", Value: false}}, findOptions)
 
 	if paramProductName, ok := queryParams["productName"]; ok {
 		productName := strings.Join(paramProductName, " ")
 		filter = bson.D{primitive.E{Key: "productName",
 			Value: primitive.Regex{Pattern: productName, Options: "i"}}, primitive.E{Key: "IsDeleted", Value: false}}
 		log.Println("Filter ", filter)
-		// cursor, err = collection.Find(ctx, filter, findOptions)
-		// if err != nil {
-		// 	log.Println("Error finding the data ", err)
-		// 	return catalogs, err
-		// }
+		cursor, err = collection.Find(ctx, filter, findOptions)
+		if err != nil {
+			log.Println("Error finding the data ", err)
+			return catalogs, err
+		}
 	}
 
 	if paramManufacturer, ok := queryParams["manufacturer"]; ok {
@@ -44,11 +44,11 @@ func (dc *DBRepo) GetAllProductsQuery(queryParams map[string][]string) ([]model.
 			Value: primitive.Regex{Pattern: manufacturer, Options: "i"}}, primitive.E{Key: "IsDeleted", Value: false}}
 
 		log.Println("Filter ", filter)
-		// cursor, err = collection.Find(ctx, filter, findOptions)
-		// if err != nil {
-		// 	log.Println("Error finding the data ", err)
-		// 	return catalogs, err
-		// }
+		cursor, err = collection.Find(ctx, filter, findOptions)
+		if err != nil {
+			log.Println("Error finding the data ", err)
+			return catalogs, err
+		}
 	}
 
 	if paramCategory, ok := queryParams["category"]; ok {
@@ -57,17 +57,11 @@ func (dc *DBRepo) GetAllProductsQuery(queryParams map[string][]string) ([]model.
 			Value: primitive.Regex{Pattern: categoryName, Options: "i"}}, primitive.E{Key: "IsDeleted", Value: false}}
 		log.Println("Filter ", filter)
 
-		// cursor, err = collection.Find(ctx, filter, findOptions)
-		// if err != nil {
-		// 	log.Println("Error finding the data ", err)
-		// 	return catalogs, err
-		// }
-	}
-
-	cursor, err := collection.Find(ctx, filter, findOptions)
-	if err != nil {
-		log.Println("Error finding the data ", err)
-		return catalogs, err
+		cursor, err = collection.Find(ctx, filter, findOptions)
+		if err != nil {
+			log.Println("Error finding the data ", err)
+			return catalogs, err
+		}
 	}
 
 	for cursor.Next(ctx) {
